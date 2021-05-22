@@ -1,6 +1,5 @@
 # Reddit Comment Scraper
-Forked from https://github.com/ianhussey/RedditCommentScraper
-Modified to pull usernames from a thread
+Forked from https://github.com/ianhussey/RedditCommentScraper. Modified to pull usernames from a thread
 
 Scrape comments from a given thread on reddit.com using PRAW
 
@@ -17,9 +16,11 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 ## Install
 Ubuntu & Debian based
 **Install git**
+
 `sudo apt install git`
 
 **Clone this repo**
+
 `git clone https://github.com/Cyberzoid1/RedditCommentScraper.git`
 
 **Change directory**
