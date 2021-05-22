@@ -25,6 +25,7 @@ Notes:
 
 # Dependencies
 import praw
+from praw.models import MoreComments
 import os
 import csv
 import sys
@@ -49,31 +50,42 @@ else:
     comment_to_list = default_comment_to_list
 
 def get_submission_comments(uniq_id):
-    submission = r.submission(id=uniq_id)  # UNIQUE ID FOR THE THREAD GOES HERE - GET FROM THE URL
-    submission.comments.replace_more(limit=None, threshold=0)  # all comments, not just first page
 
-    # Save object to pickle
-    output = open(cfg.output_file, 'wb')
-    pickle.dump(submission, output, -1)
-    output.close()
-
-    ## Load object from pickle
-    # pkl_file = open(cfg.output_file, 'rb')
-    # submission = pickle.load(pkl_file)
-    ##pprint.pprint(submission)
-    # pkl_file.close()
+    # Pull from reddit API or load from saved dump
+    if (True):
+        submission = r.submission(id=uniq_id)  # UNIQUE ID FOR THE THREAD GOES HERE - GET FROM THE URL
+        #submission.comments.replace_more(limit=0, threshold=0)  # all comments, not just first page
+        print("Saving pickle")
+        # Save object to pickle
+        output = open(cfg.output_file, 'wb')
+        pickle.dump(submission, output, -1)
+        output.close()
+    else:
+        print("Loading pickle")
+        ## Load object from pickle
+        pkl_file = open(cfg.output_file, 'rb')
+        submission = pickle.load(pkl_file)
+        #pprint.pprint(submission)
+        pkl_file.close()
 
     # Extract first level comments only
     forest_comments = submission.comments  # get comments tree
     already_done = set()
     top_level_comments = []
     for comment in forest_comments:
-        if not hasattr(comment, 'body'):  # only comments with body text
-            continue
+        print("Username: %s" % comment.author)
+        #if not hasattr(comment, 'body'):  # only comments with body text
+        #    continue
         if comment.is_root:  # only first level comments
             if comment.id not in already_done:
                 already_done.add(comment.id)  # add it to the list of checked comments
-                top_level_comments.append(comment_to_list(comment.body))  # append to list for saving
+                if (isinstance(comment,MoreComments)):
+                   print("This is a more comment")
+                   continue
+                try:
+                    top_level_comments.append(str(comment.author))  # append to list for saving
+                except AttributeError:
+                    print("No author name")
     return top_level_comments
 
 def get_subreddit_comments(uniq_id):
@@ -91,8 +103,10 @@ if uniq_id[:3] == '/r/':
 else:
     top_level_comments = get_submission_comments(uniq_id)
 
+print(top_level_comments)
 # Save comments to disk
 with open(cfg.output_csv_file, "w", encoding="utf-8") as output:
-    writer = csv.writer(output)
-    writer.writerows(top_level_comments)
+    output.write("Username,\n")
+    for item in top_level_comments:
+        output.write(str(item)+",\n")
 

@@ -1,4 +1,6 @@
 # Reddit Comment Scraper
+Forked from https://github.com/ianhussey/RedditCommentScraper
+Modified to pull usernames from a thread
 
 Scrape comments from a given thread on reddit.com using PRAW
 
@@ -10,7 +12,31 @@ This program is free software: you can redistribute it and/or modify it under th
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 ## Version
-1.0 (12/4/2016)
+1.1 (5/22/2021)
+
+## Install
+Ubuntu & Debian based
+**Install git**
+`sudo apt install git`
+
+**Clone this repo**
+`git clone https://github.com/Cyberzoid1/RedditCommentScraper.git`
+
+**Change directory**
+`cd RedditCommentScrapper`
+
+**Create a reddit app key**
+Reddit apps: https://ssl.reddit.com/prefs/apps/
+Tutorial: https://towardsdatascience.com/scraping-reddit-data-1c0af3040768
+
+**Run setup script**
+`./setup.sh`
+
+Note api configs can be changed in `Scraper_config.py` file
+
+## Run Scrapper
+`python3 Scraper.py <thread ID>`
+
 
 ## Description
 1. Scrapes all comments from a given reddit thread
@@ -18,7 +44,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 3. Saves to a csv file
 
 ## Known issues
-None. 
+May not handle comments from deleted users
 
 ## Notes
 1. Although the script only uses publiclly available information, PRAW's call to the reddit API requires a reddit login (see line 44).
