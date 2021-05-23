@@ -10,6 +10,15 @@ client_id = "CLIENT ID"
 client_secret = "CLIENT SECRET"
 bot_username = "BOT USERNAME"
 
+# Google credentials for sheets
+# Enable upload to google sheets. Set to True or False
+gsheet_enable = False
+# Google API service account credential JSON file
+service_file="SERVICE CREDENTIAL FILE"
+# Name of the Google Sheet to write to
+gsheet_name="REDDIT SCRAPPER TEST SHEET"
+
+# Output files
 output_file = "scraped_data.pkl"
 output_csv_file = "output.csv"
 

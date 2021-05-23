@@ -110,3 +110,28 @@ with open(cfg.output_csv_file, "w", encoding="utf-8") as output:
     for item in top_level_comments:
         output.write(str(item)+",\n")
 
+# Upload to google sheets
+if (cfg.gsheet_enable):
+	import pygsheets
+	import pandas as pd
+    print("Uploading to Google Sheets")
+	#authorization
+	gc = pygsheets.authorize(service_file=cfg.service_file)
+
+	# Create empty dataframe
+	df = pd.DataFrame()
+
+	# Create a column
+	df['name'] = top_level_comments
+
+	#open the google spreadsheet (where 'PY to Gsheet Test' is the name of my sheet)
+	sh = gc.open('testing-brandon-algo')
+
+	#select the first sheet 
+	wks = sh[0]
+
+	# clear
+	wks.clear("*")
+	#update the first sheet with df, starting at cell B2. 
+	wks.set_dataframe(df,(1,1))
+
